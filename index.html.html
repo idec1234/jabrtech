@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JABR TECHNOLOGY — Engineering Intelligence Into Everyday Life</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@300;400;600;700&family=Space+Mono:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --electric: #00D4FF;
+    --cyan: #00FFE5;
+    --black: #020408;
+    --deep: #060C14;
+    --graphite: #111820;
+    --text: #E8F4FF;
+    --muted: #5A7A9A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  /* ── LANGUAGE SWITCH ── */
+  body { background: var(--black); color: var(--text); font-family: 'Syne', sans-serif; overflow-x: hidden; cursor: none; transition: font-family 0.3s; }
+  html[lang="ar"] body { font-family: 'Cairo', sans-serif; }
+  html[lang="ar"] { direction: rtl; }
+  /* flip flex/grid directions in RTL */
+  html[lang="ar"] .nav-links { flex-direction: row-reverse; }
+  html[lang="ar"] .section-label { flex-direction: row-reverse; }
+  html[lang="ar"] .section-label::before { display: none; }
+  html[lang="ar"] .section-label::after { content: ''; width: 30px; height: 1px; background: var(--electric); }
+  html[lang="ar"] .pillar { flex-direction: row-reverse; text-align: right; }
+  html[lang="ar"] .founder-quote { padding-left: 0; padding-right: 30px; }
+  html[lang="ar"] .founder-quote::before { left: auto; right: 0; }
+  html[lang="ar"] .inv-arrow { margin-left: 0; margin-right: auto; transform: scaleX(-1); }
+  html[lang="ar"] .product-link { flex-direction: row-reverse; }
+  html[lang="ar"] .roadmap-line { flex-direction: row-reverse; }
+  html[lang="ar"] .roadmap-point { padding-left: 0; padding-right: 16px; }
+  html[lang="ar"] .roadmap-point::before { left: auto; right: 0; }
+  html[lang="ar"] .footer-top { direction: rtl; }
+  html[lang="ar"] .logo-wrap { flex-direction: row-reverse; }
+  html[lang="ar"] .logo-text { text-align: right; }
+  html[lang="ar"] .orchestra-layout { direction: rtl; }
+  html[lang="ar"] .founder-layout { direction: rtl; }
+  html[lang="ar"] .investor-layout { direction: rtl; }
+  html[lang="ar"] .video-grid { direction: rtl; }
+
+  /* ── LANG TEXT VISIBILITY ── */
+  .en { display: block; }
+  .ar { display: none; }
+  html[lang="ar"] .en { display: none; }
+  html[lang="ar"] .ar { display: block; }
+  /* inline variants */
+  span.en, a.en { display: inline; }
+  span.ar, a.ar { display: none; }
+  html[lang="ar"] span.en, html[lang="ar"] a.en { display: none; }
+  html[lang="ar"] span.ar, html[lang="ar"] a.ar { display: inline; }
+  /* flex variants */
+  .flex-en { display: flex; }
+  .flex-ar { display: none; }
+  html[lang="ar"] .flex-en { display: none; }
+  html[lang="ar"] .flex-ar { display: flex; }
+
+  /* ── LANGUAGE TOGGLE BUTTON ── */
+  .lang-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.3);
+    color: var(--electric);
+    padding: 8px 18px;
+    font-family: 'Orbitron', monospace;
+    font-size: 11px; letter-spacing: 2px;
+    cursor: none; transition: all 0.3s;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  html[lang="ar"] .lang-btn { font-family: 'Cairo', sans-serif; font-size: 13px; letter-spacing: 0; }
+  .lang-btn:hover { background: rgba(0,212,255,0.15); border-color: var(--electric); }
+  .lang-flag { font-size: 16px; }
+
+  /* ── CURSOR ── */
+  #cursor { width: 12px; height: 12px; background: var(--electric); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: screen; }
+  #cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(0,212,255,0.4); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform 0.35s cubic-bezier(0.23,1,0.32,1); }
+
+  /* ── NAV ── */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 60px; display: flex; align-items: center; justify-content: space-between; gap: 20px; background: linear-gradient(to bottom, rgba(2,4,8,0.97) 0%, transparent 100%); transition: all 0.4s; }
+  nav.scrolled { background: rgba(2,4,8,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,212,255,0.1); padding: 12px 60px; }
+  .logo-wrap { display: flex; align-items: center; gap: 14px; text-decoration: none; flex-shrink: 0; }
+  .logo-icon { width: 40px; height: 40px; flex-shrink: 0; }
+  .logo-text { display: flex; flex-direction: column; }
+  .logo-name { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 15px; letter-spacing: 4px; color: var(--text); line-height: 1; }
+  .logo-name span { color: var(--electric); }
+  .logo-sub { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+  html[lang="ar"] .logo-sub { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 10px; }
+  .nav-center { display: flex; align-items: center; gap: 32px; flex: 1; justify-content: center; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; transition: color 0.3s; white-space: nowrap; }
+  html[lang="ar"] .nav-links a { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 13px; }
+  .nav-links a:hover { color: var(--electric); }
+  .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .nav-cta { background: transparent; border: 1px solid var(--electric); color: var(--electric); padding: 9px 22px; font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 2px; cursor: none; transition: all 0.3s; text-decoration: none; text-transform: uppercase; white-space: nowrap; }
+  html[lang="ar"] .nav-cta { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 13px; }
+  .nav-cta:hover { background: var(--electric); color: var(--black); }
+
+  /* ── HERO ── */
+  #hero { height: 100vh; min-height: 700px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px); background-size: 80px 80px; animation: gridShift 20s linear infinite; }
+  @keyframes gridShift { 0%{transform:translateY(0)} 100%{transform:translateY(80px)} }
+  .hero-radial { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0,212,255,0.08) 0%, transparent 70%); }
+  #particles-canvas { position: absolute; inset: 0; z-index: 1; }
+  .hero-content { position: relative; z-index: 2; text-align: center; max-width: 920px; padding: 0 40px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 10px; border: 1px solid rgba(0,212,255,0.3); padding: 8px 20px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--electric); margin-bottom: 36px; animation: fadeUp 1s 0.2s both; }
+  html[lang="ar"] .hero-badge { font-family: 'Cairo', sans-serif; letter-spacing: 0; flex-direction: row-reverse; }
+  .hero-badge-dot { width: 6px; height: 6px; background: var(--electric); border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+  .hero-logo-svg { margin: 0 auto 24px; display: block; animation: fadeUp 1s 0.35s both; }
+  .hero-tagline { font-family: 'Orbitron', monospace; font-size: clamp(11px,1.5vw,14px); letter-spacing: 5px; color: var(--electric); text-transform: uppercase; margin-bottom: 28px; animation: fadeUp 1s 0.6s both; }
+  html[lang="ar"] .hero-tagline { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: clamp(14px,1.8vw,18px); }
+  .hero-sub { font-size: clamp(14px,1.8vw,18px); color: var(--muted); line-height: 1.8; max-width: 640px; margin: 0 auto 52px; font-weight: 300; animation: fadeUp 1s 0.8s both; }
+  html[lang="ar"] .hero-sub { font-family: 'Cairo', sans-serif; line-height: 2; font-size: clamp(15px,2vw,19px); }
+  .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; animation: fadeUp 1s 1s both; }
+  .hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px; animation: fadeUp 1s 1.4s both; }
+  .scroll-text { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; }
+  html[lang="ar"] .scroll-text { font-family: 'Cairo', sans-serif; letter-spacing: 0; }
+  .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--electric), transparent); animation: scrollPulse 2s infinite; }
+  @keyframes scrollPulse { 0%{opacity:1;transform:scaleY(1);transform-origin:top} 100%{opacity:0;transform:scaleY(0);transform-origin:top} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+  .btn-primary { background: var(--electric); color: var(--black); padding: 16px 40px; font-family: 'Orbitron', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; font-weight: 700; transition: all 0.3s; position: relative; overflow: hidden; display: inline-block; }
+  html[lang="ar"] .btn-primary { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 15px; }
+  .btn-primary::after { content: ''; position: absolute; inset: 0; background: white; transform: translateX(-101%); transition: transform 0.3s; mix-blend-mode: overlay; }
+  .btn-primary:hover::after { transform: translateX(0); }
+  .btn-secondary { border: 1px solid rgba(0,212,255,0.4); color: var(--electric); padding: 16px 40px; font-family: 'Orbitron', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: all 0.3s; display: inline-block; }
+  html[lang="ar"] .btn-secondary { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 15px; }
+  .btn-secondary:hover { background: rgba(0,212,255,0.08); border-color: var(--electric); }
+
+  /* ── METRICS ── */
+  .metrics-strip { border-top: 1px solid rgba(0,212,255,0.1); border-bottom: 1px solid rgba(0,212,255,0.1); padding: 0 60px; display: grid; grid-template-columns: repeat(4,1fr); background: rgba(0,212,255,0.02); }
+  .metric-item { padding: 28px 40px; text-align: center; border-right: 1px solid rgba(0,212,255,0.08); }
+  html[lang="ar"] .metric-item { border-right: none; border-left: 1px solid rgba(0,212,255,0.08); }
+  html[lang="ar"] .metric-item:first-child { border-left: 1px solid rgba(0,212,255,0.08); }
+  html[lang="ar"] .metric-item:last-child { border-left: none; }
+  .metric-item:last-child { border-right: none; }
+  .metric-num { font-family: 'Orbitron', monospace; font-size: 36px; font-weight: 900; color: var(--electric); display: block; line-height: 1; }
+  .metric-label { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-top: 8px; }
+  html[lang="ar"] .metric-label { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 13px; }
+
+  /* ── GENERAL SECTION ── */
+  section { padding: 120px 60px; }
+  .section-label { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 4px; color: var(--electric); text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+  html[lang="ar"] .section-label { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 13px; }
+  .section-label::before { content: ''; width: 30px; height: 1px; background: var(--electric); }
+  .section-title { font-family: 'Orbitron', monospace; font-size: clamp(28px,4.5vw,56px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+  html[lang="ar"] .section-title { font-family: 'Cairo', sans-serif; line-height: 1.3; font-weight: 900; }
+  .section-body { font-size: 17px; color: var(--muted); line-height: 1.8; max-width: 560px; font-weight: 300; }
+  html[lang="ar"] .section-body { font-family: 'Cairo', sans-serif; line-height: 2; font-size: 16px; }
+  .glow-line { height: 1px; background: linear-gradient(90deg, transparent, var(--electric), transparent); opacity: 0.4; }
+
+  /* ── ORCHESTRA ── */
+  #orchestra { background: var(--deep); position: relative; overflow: hidden; }
+  #orchestra::before { content: ''; position: absolute; right: -200px; top: -200px; width: 700px; height: 700px; background: radial-gradient(circle, rgba(0,212,255,0.05) 0%, transparent 60%); pointer-events: none; }
+  html[lang="ar"] #orchestra::before { right: auto; left: -200px; }
+  .orchestra-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+  .orchestra-visual { position: relative; display: flex; align-items: center; justify-content: center; height: 480px; }
+  .orch-ring { position: absolute; border-radius: 50%; border: 1px solid; animation: spin linear infinite; }
+  .orch-ring:nth-child(1) { width: 400px; height: 400px; border-color: rgba(0,212,255,0.1); animation-duration: 60s; }
+  .orch-ring:nth-child(2) { width: 300px; height: 300px; border-color: rgba(0,212,255,0.15); animation-duration: 40s; animation-direction: reverse; }
+  .orch-ring:nth-child(3) { width: 200px; height: 200px; border-color: rgba(0,212,255,0.25); animation-duration: 25s; }
+  @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  .orch-center { width: 100px; height: 100px; background: radial-gradient(circle, rgba(0,212,255,0.3), rgba(0,212,255,0.05)); border-radius: 50%; border: 1px solid rgba(0,212,255,0.5); display: flex; align-items: center; justify-content: center; z-index: 1; box-shadow: 0 0 40px rgba(0,212,255,0.2); }
+  .orch-icon { font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 1px; color: var(--electric); text-align: center; line-height: 1.4; }
+  .orch-node { position: absolute; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--electric); background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.2); padding: 6px 12px; white-space: nowrap; animation: nodeFloat 3s ease-in-out infinite; }
+  html[lang="ar"] .orch-node { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 11px; }
+  .orch-node:nth-child(5) { top: 20px; left: 50%; transform: translateX(-50%); }
+  .orch-node:nth-child(6) { top: 25%; right: 0; animation-delay: 0.5s; }
+  .orch-node:nth-child(7) { bottom: 25%; right: 10%; animation-delay: 1s; }
+  .orch-node:nth-child(8) { bottom: 20px; left: 50%; transform: translateX(-50%); animation-delay: 1.5s; }
+  .orch-node:nth-child(9) { top: 25%; left: 0; animation-delay: 2s; }
+  @keyframes nodeFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+  .orch-node:nth-child(5) { animation: nodeFloatCenter 3s ease-in-out infinite; }
+  .orch-node:nth-child(8) { animation: nodeFloatCenter 3s 1.5s ease-in-out infinite; }
+  @keyframes nodeFloatCenter { 0%,100%{transform:translateY(0) translateX(-50%)} 50%{transform:translateY(-6px) translateX(-50%)} }
+  .orchestra-pillars { display: grid; gap: 18px; margin-top: 40px; }
+  .pillar { display: flex; align-items: flex-start; gap: 20px; padding: 20px; border: 1px solid rgba(0,212,255,0.06); background: rgba(0,212,255,0.02); transition: all 0.3s; }
+  .pillar:hover { border-color: rgba(0,212,255,0.2); background: rgba(0,212,255,0.05); }
+  .pillar-num { font-family: 'Orbitron', monospace; font-size: 26px; font-weight: 900; color: rgba(0,212,255,0.2); flex-shrink: 0; line-height: 1; }
+  .pillar-title { font-family: 'Orbitron', monospace; font-size: 13px; letter-spacing: 1px; color: var(--text); margin-bottom: 6px; }
+  html[lang="ar"] .pillar-title { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 15px; }
+  .pillar-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  html[lang="ar"] .pillar-body { font-family: 'Cairo', sans-serif; line-height: 1.9; font-size: 14px; }
+
+  /* ── PRODUCTS ── */
+  #products { background: var(--black); }
+  .products-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 80px; }
+  .product-card { position: relative; overflow: hidden; min-height: 500px; display: flex; align-items: flex-end; padding: 48px; cursor: none; }
+  .product-card::before { content: ''; position: absolute; inset: 0; background: var(--deep); z-index: 0; }
+  .product-card-bg { position: absolute; inset: 0; z-index: 1; transition: transform 0.6s cubic-bezier(0.23,1,0.32,1); }
+  .product-card:hover .product-card-bg { transform: scale(1.05); }
+  .product-card.aislos .product-card-bg { background: radial-gradient(ellipse 80% 60% at 70% 30%, rgba(0,212,255,0.15) 0%, transparent 60%), repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(0,212,255,0.03) 40px, rgba(0,212,255,0.03) 41px); }
+  .product-card.woodtech .product-card-bg { background: radial-gradient(ellipse 80% 60% at 30% 70%, rgba(0,255,229,0.12) 0%, transparent 60%), repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(0,255,229,0.03) 40px, rgba(0,255,229,0.03) 41px); }
+  .product-visual { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center; }
+  .aislos-diagram { width: 220px; height: 220px; position: relative; display: flex; align-items: center; justify-content: center; }
+  .aislos-layer { position: absolute; border-radius: 50%; border: 1px solid; }
+  .aislos-layer:nth-child(1) { width: 220px; height: 220px; border-color: rgba(0,212,255,0.15); animation: spin 30s linear infinite; }
+  .aislos-layer:nth-child(2) { width: 155px; height: 155px; border-color: rgba(0,212,255,0.25); animation: spin 20s linear infinite reverse; }
+  .aislos-layer:nth-child(3) { width: 90px; height: 90px; border-color: rgba(0,212,255,0.5); animation: spin 10s linear infinite; }
+  .aislos-core { width: 44px; height: 44px; background: radial-gradient(var(--electric), rgba(0,212,255,0.3)); border-radius: 50%; box-shadow: 0 0 30px rgba(0,212,255,0.5); }
+  .product-content { position: relative; z-index: 3; }
+  .product-tag { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--electric); text-transform: uppercase; margin-bottom: 12px; }
+  html[lang="ar"] .product-tag { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 12px; }
+  .product-name { font-family: 'Orbitron', monospace; font-size: 26px; font-weight: 900; line-height: 1.1; margin-bottom: 16px; }
+  html[lang="ar"] .product-name { font-family: 'Cairo', sans-serif; line-height: 1.4; }
+  .product-desc { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 300px; margin-bottom: 28px; }
+  html[lang="ar"] .product-desc { font-family: 'Cairo', sans-serif; line-height: 1.9; }
+  .product-link { display: inline-flex; align-items: center; gap: 10px; color: var(--electric); font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 2px; text-decoration: none; text-transform: uppercase; transition: gap 0.3s; }
+  html[lang="ar"] .product-link { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 14px; }
+  .product-link:hover { gap: 18px; }
+
+  /* ── FEATURES ── */
+  .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; margin-top: 80px; }
+  .feat-card { background: var(--black); padding: 44px 36px; border: 1px solid rgba(0,212,255,0.06); transition: all 0.4s; position: relative; overflow: hidden; }
+  .feat-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--electric); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+  html[lang="ar"] .feat-card::after { transform-origin: right; }
+  .feat-card:hover::after { transform: scaleX(1); }
+  .feat-card:hover { background: rgba(0,212,255,0.03); }
+  .feat-icon { font-size: 34px; margin-bottom: 22px; }
+  .feat-title { font-family: 'Orbitron', monospace; font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+  html[lang="ar"] .feat-title { font-family: 'Cairo', sans-serif; font-size: 17px; }
+  .feat-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  html[lang="ar"] .feat-body { font-family: 'Cairo', sans-serif; line-height: 1.9; font-size: 14px; }
+
+  /* ── WOODTECH ── */
+  #woodtech { background: var(--deep); padding-bottom: 0; }
+  .bed-render-wrap { position: relative; display: flex; justify-content: center; align-items: center; }
+  .bed-render-wrap svg { filter: drop-shadow(0 30px 80px rgba(0,255,229,0.25)) drop-shadow(0 0 40px rgba(0,255,229,0.1)); }
+  .wt-features { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(0,255,229,0.05); margin-top: 2px; }
+  .wt-feat { background: var(--black); padding: 32px 28px; border: 1px solid rgba(0,255,229,0.06); transition: all 0.3s; }
+  .wt-feat:hover { background: rgba(0,255,229,0.03); border-color: rgba(0,255,229,0.2); }
+  .wt-feat-icon { font-size: 28px; margin-bottom: 14px; }
+  .wt-feat-title { font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 700; color: #00FFE5; margin-bottom: 8px; }
+  html[lang="ar"] .wt-feat-title { font-family: 'Cairo', sans-serif; font-size: 15px; }
+  .wt-feat-body { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  html[lang="ar"] .wt-feat-body { font-family: 'Cairo', sans-serif; font-size: 13px; line-height: 1.9; }
+
+  /* ── VIDEO ── */
+  .video-section { background: var(--deep); padding: 80px 60px; }
+  .video-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start; }
+  .video-frame { position: relative; aspect-ratio: 16/9; background: #000; border: 1px solid rgba(0,255,229,0.2); overflow: hidden; box-shadow: 0 0 60px rgba(0,255,229,0.1); }
+  .video-frame iframe { width: 100%; height: 100%; border: none; }
+  .video-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,255,229,0.05), transparent); pointer-events: none; }
+  .video-label { position: absolute; top: 16px; left: 16px; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #00FFE5; background: rgba(0,0,0,0.7); padding: 6px 12px; border: 1px solid rgba(0,255,229,0.3); pointer-events: none; }
+  html[lang="ar"] .video-label { font-family: 'Cairo', sans-serif; letter-spacing: 0; left: auto; right: 16px; font-size: 11px; }
+  .spec-tabs { display: flex; gap: 0; border-bottom: 1px solid rgba(0,255,229,0.15); margin-bottom: 36px; }
+  html[lang="ar"] .spec-tabs { flex-direction: row-reverse; }
+  .spec-tab { padding: 11px 24px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); cursor: none; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.3s; }
+  html[lang="ar"] .spec-tab { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 13px; }
+  .spec-tab.active { color: #00FFE5; border-bottom-color: #00FFE5; }
+  .spec-tab:hover { color: #00FFE5; }
+  .spec-panels > div { display: none; }
+  .spec-panels > div.active { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .spec-item { padding: 14px; border: 1px solid rgba(0,255,229,0.08); background: rgba(0,255,229,0.02); }
+  .spec-item-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #00FFE5; text-transform: uppercase; margin-bottom: 6px; }
+  html[lang="ar"] .spec-item-label { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 11px; }
+  .spec-item-val { font-size: 13px; color: var(--text); font-weight: 600; }
+  html[lang="ar"] .spec-item-val { font-family: 'Cairo', sans-serif; font-size: 14px; }
+
+  /* ── FOUNDER ── */
+  #founder { background: var(--deep); position: relative; overflow: hidden; }
+  .founder-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 100px; align-items: center; }
+  .founder-card { position: relative; background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(0,212,255,0.01)); border: 1px solid rgba(0,212,255,0.15); padding: 56px 48px; }
+  .founder-card::before { content: ''; position: absolute; top: -1px; left: 40px; width: 80px; height: 2px; background: var(--electric); }
+  html[lang="ar"] .founder-card::before { left: auto; right: 40px; }
+  .founder-avatar { width: 110px; height: 110px; border-radius: 50%; border: 2px solid rgba(0,212,255,0.3); background: linear-gradient(135deg, #0d2030, #061015); display: flex; align-items: center; justify-content: center; margin-bottom: 28px; box-shadow: 0 0 40px rgba(0,212,255,0.15); font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 900; color: var(--electric); }
+  .founder-name { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 900; margin-bottom: 8px; }
+  html[lang="ar"] .founder-name { font-family: 'Cairo', sans-serif; font-size: 22px; }
+  .founder-title { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--electric); margin-bottom: 22px; text-transform: uppercase; }
+  html[lang="ar"] .founder-title { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 13px; }
+  .founder-bio { font-size: 14px; color: var(--muted); line-height: 1.8; padding-top: 22px; border-top: 1px solid rgba(0,212,255,0.1); }
+  html[lang="ar"] .founder-bio { font-family: 'Cairo', sans-serif; line-height: 2; font-size: 15px; }
+  .founder-quote { font-family: 'Orbitron', monospace; font-size: clamp(18px,2.5vw,32px); font-weight: 700; line-height: 1.4; margin-bottom: 32px; position: relative; padding-left: 30px; }
+  html[lang="ar"] .founder-quote { font-family: 'Cairo', sans-serif; line-height: 1.6; font-weight: 900; }
+  .founder-quote::before { content: '"'; position: absolute; left: 0; top: -10px; font-size: 80px; color: rgba(0,212,255,0.15); font-family: Georgia, serif; line-height: 1; }
+  html[lang="ar"] .founder-quote::before { left: auto; right: 0; }
+  .founder-stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; margin-top: 40px; }
+  .founder-stat { padding: 18px; border: 1px solid rgba(0,212,255,0.1); }
+  .founder-stat-num { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 900; color: var(--electric); }
+  .founder-stat-label { font-size: 12px; color: var(--muted); letter-spacing: 1px; margin-top: 4px; }
+  html[lang="ar"] .founder-stat-label { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 13px; }
+
+  /* ── SOLUTIONS ── */
+  #solutions { background: var(--black); }
+  .industries-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-top: 72px; }
+  .industry-item { padding: 30px 22px; border: 1px solid rgba(0,212,255,0.08); transition: all 0.4s; position: relative; overflow: hidden; cursor: none; }
+  .industry-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,212,255,0.06), transparent); opacity: 0; transition: opacity 0.4s; }
+  .industry-item:hover::before { opacity: 1; }
+  .industry-item:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-4px); }
+  .industry-icon { font-size: 30px; margin-bottom: 14px; }
+  .industry-name { font-family: 'Orbitron', monospace; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+  html[lang="ar"] .industry-name { font-family: 'Cairo', sans-serif; font-size: 15px; }
+  .industry-sub { font-size: 12px; color: var(--muted); }
+  html[lang="ar"] .industry-sub { font-family: 'Cairo', sans-serif; font-size: 13px; line-height: 1.7; }
+
+  /* ── INVESTORS ── */
+  #investors { background: var(--deep); }
+  .investor-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: start; }
+  .inv-headline { font-family: 'Orbitron', monospace; font-size: clamp(26px,3.5vw,48px); font-weight: 900; line-height: 1.1; margin-bottom: 28px; }
+  html[lang="ar"] .inv-headline { font-family: 'Cairo', sans-serif; line-height: 1.4; }
+  .inv-headline span { color: var(--electric); }
+  .inv-body { font-size: 16px; color: var(--muted); line-height: 1.8; margin-bottom: 40px; font-weight: 300; }
+  html[lang="ar"] .inv-body { font-family: 'Cairo', sans-serif; line-height: 2; font-size: 16px; }
+  .inv-portal { background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.2); padding: 36px; }
+  .inv-portal-title { font-family: 'Orbitron', monospace; font-size: 13px; letter-spacing: 2px; color: var(--electric); margin-bottom: 24px; text-transform: uppercase; }
+  html[lang="ar"] .inv-portal-title { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 16px; }
+  .inv-items { display: grid; gap: 12px; }
+  .inv-item { display: flex; align-items: center; gap: 14px; padding: 14px; border: 1px solid rgba(0,212,255,0.08); transition: all 0.3s; cursor: none; }
+  .inv-item:hover { border-color: rgba(0,212,255,0.25); background: rgba(0,212,255,0.03); }
+  .inv-item-icon { width: 38px; height: 38px; background: rgba(0,212,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  .inv-item-text { font-size: 14px; font-weight: 600; }
+  html[lang="ar"] .inv-item-text { font-family: 'Cairo', sans-serif; font-size: 15px; }
+  .inv-item-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  html[lang="ar"] .inv-item-sub { font-family: 'Cairo', sans-serif; font-size: 12px; }
+  .inv-arrow { margin-left: auto; color: var(--electric); font-size: 18px; }
+  .roadmap { margin-top: 72px; }
+  .roadmap-line { display: flex; gap: 0; position: relative; padding-bottom: 60px; }
+  .roadmap-line::after { content: ''; position: absolute; left: 0; right: 0; top: 20px; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,212,255,0.3), rgba(0,212,255,0.3), transparent); }
+  .roadmap-point { flex: 1; padding-top: 48px; position: relative; padding-left: 16px; }
+  html[lang="ar"] .roadmap-point { padding-left: 0; padding-right: 16px; }
+  .roadmap-point::before { content: ''; position: absolute; top: 14px; left: 0; width: 12px; height: 12px; background: var(--electric); border-radius: 50%; box-shadow: 0 0 16px rgba(0,212,255,0.5); z-index: 1; }
+  html[lang="ar"] .roadmap-point::before { left: auto; right: 0; }
+  .roadmap-year { font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 900; color: var(--electric); margin-bottom: 8px; }
+  .roadmap-items { list-style: none; }
+  .roadmap-items li { font-size: 12px; color: var(--muted); padding: 4px 0; border-bottom: 1px solid rgba(0,212,255,0.05); }
+  html[lang="ar"] .roadmap-items li { font-family: 'Cairo', sans-serif; font-size: 13px; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--graphite); border-top: 1px solid rgba(0,212,255,0.1); padding: 72px 60px 36px; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 56px; margin-bottom: 56px; }
+  .footer-logo-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  html[lang="ar"] .footer-logo-wrap { flex-direction: row-reverse; }
+  .footer-logo-text { font-family: 'Orbitron', monospace; font-size: 15px; font-weight: 900; color: var(--electric); letter-spacing: 3px; }
+  .footer-tagline { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 28px; max-width: 280px; }
+  html[lang="ar"] .footer-tagline { font-family: 'Cairo', sans-serif; line-height: 2; font-size: 14px; text-align: right; }
+  .social-links { display: flex; gap: 10px; }
+  html[lang="ar"] .social-links { flex-direction: row-reverse; }
+  .social-link { width: 38px; height: 38px; border: 1px solid rgba(0,212,255,0.15); display: flex; align-items: center; justify-content: center; color: var(--muted); text-decoration: none; font-size: 13px; transition: all 0.3s; }
+  .social-link:hover { border-color: var(--electric); color: var(--electric); }
+  .footer-col-title { font-family: 'Orbitron', monospace; font-size: 11px; letter-spacing: 2px; color: var(--electric); text-transform: uppercase; margin-bottom: 20px; }
+  html[lang="ar"] .footer-col-title { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 15px; text-align: right; }
+  .footer-links { list-style: none; display: grid; gap: 10px; }
+  html[lang="ar"] .footer-links { text-align: right; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color 0.3s; }
+  html[lang="ar"] .footer-links a { font-family: 'Cairo', sans-serif; font-size: 14px; }
+  .footer-links a:hover { color: var(--text); }
+  .footer-bottom { padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; }
+  html[lang="ar"] .footer-bottom { flex-direction: row-reverse; }
+  .footer-copy { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+  html[lang="ar"] .footer-copy { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 12px; }
+  .footer-tech { font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(0,212,255,0.4); letter-spacing: 1px; }
+
+  /* ── REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); }
+
+  @media (max-width: 1100px) {
+    nav { padding: 16px 30px; }
+    nav.scrolled { padding: 12px 30px; }
+    .nav-links { gap: 20px; }
+    section { padding: 80px 30px; }
+    .orchestra-layout, .founder-layout, .investor-layout, .video-grid { grid-template-columns: 1fr; gap: 50px; }
+    .products-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: repeat(2,1fr); }
+    .industries-grid { grid-template-columns: repeat(2,1fr); }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+    .metrics-strip { grid-template-columns: repeat(2,1fr); }
+    .wt-features { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 700px) {
+    .nav-links { display: none; }
+    .hero-buttons { flex-direction: column; align-items: center; }
+    .features-grid, .industries-grid, .wt-features { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .metrics-strip { grid-template-columns: 1fr; }
+    .roadmap-line { flex-direction: column; }
+    .spec-panels > div.active { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav id="navbar">
+  <a href="#" class="logo-wrap">
+    <svg class="logo-icon" viewBox="0 0 42 42" fill="none">
+      <polygon points="21,2 38,11.5 38,30.5 21,40 4,30.5 4,11.5" stroke="#00D4FF" stroke-width="1.2" fill="rgba(0,212,255,0.04)"/>
+      <polygon points="21,8 33,14.5 33,27.5 21,34 9,27.5 9,14.5" stroke="#00D4FF" stroke-width="0.7" fill="none" opacity="0.35"/>
+      <path d="M26 12 L26 26 Q26 30 21 30 Q16 30 16 26 L16 24" stroke="#00D4FF" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <line x1="22" y1="12" x2="30" y2="12" stroke="#00D4FF" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="21" cy="21" r="2" fill="#00D4FF" opacity="0.85"/>
+      <circle cx="21" cy="2" r="1.5" fill="#00D4FF"/>
+      <circle cx="38" cy="11.5" r="1.5" fill="#00D4FF" opacity="0.65"/>
+      <circle cx="38" cy="30.5" r="1.5" fill="#00D4FF" opacity="0.65"/>
+      <circle cx="21" cy="40" r="1.5" fill="#00D4FF"/>
+      <circle cx="4" cy="30.5" r="1.5" fill="#00D4FF" opacity="0.65"/>
+      <circle cx="4" cy="11.5" r="1.5" fill="#00D4FF" opacity="0.65"/>
+    </svg>
+    <div class="logo-text">
+      <div class="logo-name">JABR<span>TECH</span></div>
+      <div class="logo-sub"><span class="en">Technology</span><span class="ar">جبر تكنولوجي</span></div>
+    </div>
+  </a>
+
+  <div class="nav-center">
+    <ul class="nav-links">
+      <li><a href="#orchestra"><span class="en">About</span><span class="ar">عنّا</span></a></li>
+      <li><a href="#products"><span class="en">Products</span><span class="ar">المنتجات</span></a></li>
+      <li><a href="#woodtech"><span class="en">WOODTECH-PRO</span><span class="ar">وودتك برو</span></a></li>
+      <li><a href="#solutions"><span class="en">Solutions</span><span class="ar">الحلول</span></a></li>
+      <li><a href="#founder"><span class="en">Founder</span><span class="ar">المؤسس</span></a></li>
+      <li><a href="#investors"><span class="en">Investors</span><span class="ar">المستثمرون</span></a></li>
+    </ul>
+  </div>
+
+  <div class="nav-right">
+    <button class="lang-btn" id="langToggle" onclick="toggleLang()">
+      <span class="lang-flag">🌐</span>
+      <span class="en">العربية</span>
+      <span class="ar">English</span>
+    </button>
+    <a href="#investors" class="nav-cta">
+      <span class="en">Invest Now</span>
+      <span class="ar">استثمر الآن</span>
+    </a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section id="hero">
+  <canvas id="particles-canvas"></canvas>
+  <div class="hero-grid"></div>
+  <div class="hero-radial"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      <span class="en">SYSTEM ONLINE — JABR TECHNOLOGY v1.0</span>
+      <span class="ar">النظام نشط — جبر تكنولوجي الإصدار 1.0</span>
+    </div>
+
+    <svg class="hero-logo-svg" width="110" height="110" viewBox="0 0 42 42" fill="none">
+      <polygon points="21,2 38,11.5 38,30.5 21,40 4,30.5 4,11.5" stroke="#00D4FF" stroke-width="1" fill="rgba(0,212,255,0.05)"/>
+      <polygon points="21,8 33,14.5 33,27.5 21,34 9,27.5 9,14.5" stroke="#00D4FF" stroke-width="0.6" fill="none" opacity="0.4"/>
+      <path d="M26 12 L26 26 Q26 30 21 30 Q16 30 16 26 L16 24" stroke="#00D4FF" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <line x1="22" y1="12" x2="30" y2="12" stroke="#00D4FF" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="21" cy="21" r="2.5" fill="#00D4FF" opacity="0.9"/>
+      <circle cx="21" cy="2" r="1.8" fill="#00D4FF"/>
+      <circle cx="38" cy="11.5" r="1.8" fill="#00D4FF" opacity="0.7"/>
+      <circle cx="38" cy="30.5" r="1.8" fill="#00D4FF" opacity="0.7"/>
+      <circle cx="21" cy="40" r="1.8" fill="#00D4FF"/>
+      <circle cx="4" cy="30.5" r="1.8" fill="#00D4FF" opacity="0.7"/>
+      <circle cx="4" cy="11.5" r="1.8" fill="#00D4FF" opacity="0.7"/>
+    </svg>
+
+    <p class="hero-tagline">
+      <span class="en">Engineering Intelligence Into Everyday Life</span>
+      <span class="ar">نهندس الذكاء في حياتك اليومية</span>
+    </p>
+    <p class="hero-sub">
+      <span class="en">We orchestrate artificial intelligence, mechatronics, and smart engineering to create intelligent ecosystems that redefine how humanity lives.</span>
+      <span class="ar">نجمع بين الذكاء الاصطناعي والميكاترونيكس والهندسة الذكية لبناء بيئات متكاملة تُعيد تعريف طريقة حياة البشر.</span>
+    </p>
+    <div class="hero-buttons">
+      <a href="#products" class="btn-primary"><span class="en">Explore AISLOS</span><span class="ar">اكتشف AISLOS</span></a>
+      <a href="#woodtech" class="btn-secondary"><span class="en">Discover WOODTECH-PRO</span><span class="ar">اكتشف WOODTECH-PRO</span></a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="scroll-text"><span class="en">Scroll</span><span class="ar">مرر</span></span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ METRICS ═══════════════════ -->
+<div class="metrics-strip">
+  <div class="metric-item"><span class="metric-num">2</span><div class="metric-label"><span class="en">Flagship Products</span><span class="ar">منتجات رائدة</span></div></div>
+  <div class="metric-item"><span class="metric-num">7</span><div class="metric-label"><span class="en">Core Disciplines</span><span class="ar">تخصصات أساسية</span></div></div>
+  <div class="metric-item"><span class="metric-num">2035</span><div class="metric-label"><span class="en">Vision Horizon</span><span class="ar">أفق الرؤية</span></div></div>
+  <div class="metric-item"><span class="metric-num">∞</span><div class="metric-label"><span class="en">Innovation Ceiling</span><span class="ar">سقف الابتكار</span></div></div>
+</div>
+<div class="glow-line"></div>
+
+<!-- ═══════════════════ ORCHESTRA ═══════════════════ -->
+<section id="orchestra">
+  <div class="orchestra-layout">
+    <div>
+      <div class="section-label reveal"><span class="en">Core Philosophy</span><span class="ar">الفلسفة الجوهرية</span></div>
+      <h2 class="section-title reveal">
+        <span class="en">The Orchestra<br>Philosophy</span>
+        <span class="ar">فلسفة<br>الأوركسترا</span>
+      </h2>
+      <p class="section-body reveal">
+        <span class="en">Innovation is a symphony. At Jabr Technology, we act as the Maestro — orchestrating AI, engineering, mechatronics, and design into one harmonious vision of intelligent living.</span>
+        <span class="ar">الابتكار سيمفونية. في جبر تكنولوجي، نضطلع بدور المايسترو — نُنسّق بين الذكاء الاصطناعي والهندسة والميكاترونيكس والتصميم لتحقيق رؤية متناغمة واحدة للحياة الذكية.</span>
+      </p>
+      <div class="orchestra-pillars reveal">
+        <div class="pillar">
+          <span class="pillar-num">01</span>
+          <div>
+            <div class="pillar-title"><span class="en">Specialized Mastery</span><span class="ar">الإتقان المتخصص</span></div>
+            <p class="pillar-body"><span class="en">Each discipline is a virtuoso. AI, embedded systems, UX — each plays its instrument with precision.</span><span class="ar">كل تخصص عازف محترف. الذكاء الاصطناعي، الأنظمة المدمجة، وتجربة المستخدم — كل منها يعزف بدقة فائقة.</span></p>
+          </div>
+        </div>
+        <div class="pillar">
+          <span class="pillar-num">02</span>
+          <div>
+            <div class="pillar-title"><span class="en">Cross-Discipline Harmony</span><span class="ar">التناغم بين التخصصات</span></div>
+            <p class="pillar-body"><span class="en">Success emerges when engineering, software, and design breathe together as one unified system.</span><span class="ar">يتحقق النجاح حين تتنفس الهندسة والبرمجيات والتصميم معاً كنظام موحد متكامل.</span></p>
+          </div>
+        </div>
+        <div class="pillar">
+          <span class="pillar-num">03</span>
+          <div>
+            <div class="pillar-title"><span class="en">Maestro Leadership</span><span class="ar">قيادة المايسترو</span></div>
+            <p class="pillar-body"><span class="en">The conductor shapes the performance without playing a single note — enabling every voice to reach its full potential.</span><span class="ar">المايسترو يُشكّل الأداء دون أن يعزف نوتة واحدة — يُمكّن كل صوت من الوصول إلى أقصى إمكاناته.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="orchestra-visual reveal">
+      <div class="orch-ring"></div>
+      <div class="orch-ring"></div>
+      <div class="orch-ring"></div>
+      <div class="orch-center"><div class="orch-icon">JABR<br>MAESTRO</div></div>
+      <div class="orch-node"><span class="en">AI ENGINE</span><span class="ar">محرك الذكاء</span></div>
+      <div class="orch-node"><span class="en">MECHATRONICS</span><span class="ar">ميكاترونيكس</span></div>
+      <div class="orch-node"><span class="en">EMBEDDED SYS</span><span class="ar">أنظمة مدمجة</span></div>
+      <div class="orch-node"><span class="en">IoT LAYER</span><span class="ar">طبقة IoT</span></div>
+      <div class="orch-node"><span class="en">UX DESIGN</span><span class="ar">تجربة المستخدم</span></div>
+    </div>
+  </div>
+</section>
+<div class="glow-line"></div>
+
+<!-- ═══════════════════ PRODUCTS ═══════════════════ -->
+<section id="products">
+  <div class="section-label reveal"><span class="en">Flagship Technology</span><span class="ar">التكنولوجيا الرائدة</span></div>
+  <h2 class="section-title reveal">
+    <span class="en">Products That<br>Define the Future</span>
+    <span class="ar">منتجات تُعرّف<br>المستقبل</span>
+  </h2>
+  <div class="products-grid">
+    <!-- AISLOS -->
+    <div class="product-card aislos reveal">
+      <div class="product-card-bg"></div>
+      <div class="product-visual">
+        <div class="aislos-diagram">
+          <div class="aislos-layer"></div><div class="aislos-layer"></div><div class="aislos-layer"></div>
+          <div class="aislos-core"></div>
+        </div>
+      </div>
+      <div class="product-content">
+        <div class="product-tag"><span class="en">Smart OS · AI Platform</span><span class="ar">نظام تشغيل ذكي · منصة ذكاء اصطناعي</span></div>
+        <h3 class="product-name">AISLOS</h3>
+        <p class="product-desc"><span class="en">The Intelligent Operating System for Smart Environments. AI-powered. Environment-aware. The brain behind tomorrow's living spaces.</span><span class="ar">نظام التشغيل الذكي للبيئات المتقدمة. مدعوم بالذكاء الاصطناعي. واعٍ بالبيئة المحيطة. العقل خلف مساكن الغد.</span></p>
+        <a href="#" class="product-link"><span class="en">Learn More →</span><span class="ar">← اعرف المزيد</span></a>
+      </div>
+    </div>
+    <!-- WOODTECH -->
+    <div class="product-card woodtech reveal">
+      <div class="product-card-bg"></div>
+      <div class="product-visual">
+        <svg width="190" height="265" viewBox="0 0 200 280" fill="none" style="filter:drop-shadow(0 20px 50px rgba(0,255,229,0.3))">
+          <defs>
+            <linearGradient id="podG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a3a40"/><stop offset="100%" stop-color="#061215"/></linearGradient>
+            <linearGradient id="shineG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00FFE5" stop-opacity="0.15"/><stop offset="100%" stop-color="#00FFE5" stop-opacity="0"/></linearGradient>
+            <radialGradient id="glowB" cx="50%" cy="100%" r="50%"><stop offset="0%" stop-color="#00FFE5" stop-opacity="0.4"/><stop offset="100%" stop-color="#00FFE5" stop-opacity="0"/></radialGradient>
+          </defs>
+          <ellipse cx="100" cy="265" rx="78" ry="18" fill="url(#glowB)"/>
+          <path d="M30 100 Q30 20 100 20 Q170 20 170 100 L170 220 Q170 260 100 260 Q30 260 30 220 Z" fill="url(#podG)" stroke="#00FFE5" stroke-width="0.8" stroke-opacity="0.4"/>
+          <path d="M45 80 Q45 25 100 25 Q155 25 155 80 L155 130 Q130 120 100 118 Q70 120 45 130 Z" fill="url(#shineG)"/>
+          <line x1="30" y1="140" x2="170" y2="140" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.2"/>
+          <line x1="30" y1="180" x2="170" y2="180" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.2"/>
+          <rect x="70" y="35" width="60" height="7" rx="3.5" fill="#00FFE5" fill-opacity="0.12" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.5"/>
+          <rect x="55" y="155" width="90" height="50" rx="5" fill="#000" fill-opacity="0.6" stroke="#00FFE5" stroke-width="0.6" stroke-opacity="0.4"/>
+          <text x="100" y="178" font-family="monospace" font-size="7" fill="#00FFE5" fill-opacity="0.7" text-anchor="middle">AISLOS ACTIVE</text>
+          <text x="100" y="192" font-family="monospace" font-size="6" fill="#00FFE5" fill-opacity="0.4" text-anchor="middle">HEALTH · SLEEP · AIoT</text>
+          <circle cx="75" cy="215" r="3" fill="#00FFE5" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/></circle>
+          <circle cx="100" cy="215" r="3" fill="#00FFE5" opacity="0.5"><animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.5s" repeatCount="indefinite"/></circle>
+          <circle cx="125" cy="215" r="3" fill="#00FFE5" opacity="0.6"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.8s" repeatCount="indefinite"/></circle>
+        </svg>
+      </div>
+      <div class="product-content">
+        <div class="product-tag" style="color:#00FFE5"><span class="en">AIoT · Smart Living</span><span class="ar">AIoT · معيشة ذكية</span></div>
+        <h3 class="product-name" style="color:#00FFE5">WOODTECH-PRO<br>Nebula Pod</h3>
+        <p class="product-desc"><span class="en">The world's first AIoT-integrated smart sleeping pod. Health monitoring, adaptive intelligence, unprecedented wellness.</span><span class="ar">أول سرير ذكي متكامل في العالم بتقنية AIoT. مراقبة صحية، ذكاء تكيّفي، ورفاهية غير مسبوقة.</span></p>
+        <a href="#woodtech" class="product-link" style="color:#00FFE5"><span class="en">Explore Pod →</span><span class="ar">← استكشف السرير</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- AISLOS features -->
+  <div class="features-grid">
+    <div class="feat-card reveal"><div class="feat-icon">🧠</div><div class="feat-title"><span class="en">AI Decision Engine</span><span class="ar">محرك قرارات الذكاء الاصطناعي</span></div><p class="feat-body"><span class="en">Predictive intelligence that learns your environment and adapts in real-time to optimize every experience.</span><span class="ar">ذكاء تنبؤي يتعلم بيئتك ويتكيّف في الوقت الفعلي لتحسين كل تجربة.</span></p></div>
+    <div class="feat-card reveal"><div class="feat-icon">🔗</div><div class="feat-title"><span class="en">IoT Integration Layer</span><span class="ar">طبقة تكامل إنترنت الأشياء</span></div><p class="feat-body"><span class="en">Seamlessly connects hundreds of devices, sensors, and services into one unified intelligent ecosystem.</span><span class="ar">توصيل سلس لمئات الأجهزة والحساسات والخدمات في نظام بيئي ذكي موحد.</span></p></div>
+    <div class="feat-card reveal"><div class="feat-icon">☁️</div><div class="feat-title"><span class="en">Cloud & Edge Computing</span><span class="ar">الحوسبة السحابية والطرفية</span></div><p class="feat-body"><span class="en">Distributed processing architecture for ultra-low latency responses and enterprise-grade reliability.</span><span class="ar">بنية معالجة موزعة لاستجابات فائقة السرعة وموثوقية على مستوى المؤسسات.</span></p></div>
+    <div class="feat-card reveal"><div class="feat-icon">📡</div><div class="feat-title"><span class="en">Embedded Systems Core</span><span class="ar">نواة الأنظمة المدمجة</span></div><p class="feat-body"><span class="en">Purpose-built firmware and hardware controllers designed for precision operation in demanding environments.</span><span class="ar">برمجيات ثابتة ووحدات تحكم مُصنَّعة خصيصاً للعمل بدقة في البيئات الصعبة.</span></p></div>
+    <div class="feat-card reveal"><div class="feat-icon">📱</div><div class="feat-title"><span class="en">Mobile Intelligence App</span><span class="ar">تطبيق الذكاء المتنقل</span></div><p class="feat-body"><span class="en">Complete ecosystem control at your fingertips with real-time analytics, insights, and remote management.</span><span class="ar">تحكم كامل بالنظام من هاتفك مع تحليلات فورية ورؤى ذكية وإدارة عن بُعد.</span></p></div>
+    <div class="feat-card reveal"><div class="feat-icon">🔬</div><div class="feat-title"><span class="en">Digital Twin Engine</span><span class="ar">محرك التوأم الرقمي</span></div><p class="feat-body"><span class="en">Create virtual replicas of physical environments for simulation, optimization, and predictive maintenance.</span><span class="ar">إنشاء نسخ افتراضية من البيئات الحقيقية للمحاكاة والتحسين والصيانة التنبؤية.</span></p></div>
+  </div>
+</section>
+<div class="glow-line"></div>
+
+<!-- ═══════════════════ WOODTECH-PRO ═══════════════════ -->
+<section id="woodtech" style="background:var(--deep);padding-bottom:0">
+  <div class="section-label reveal" style="color:#00FFE5"><span class="en">Flagship Product</span><span class="ar">المنتج الرائد</span></div>
+  <h2 class="section-title reveal" style="color:#00FFE5">
+    WOODTECH-PRO<br><span style="color:var(--text)"><span class="en">Nebula Pod</span><span class="ar">نيبيولا بود</span></span>
+  </h2>
+  <p class="section-body reveal">
+    <span class="en">The World's Most Advanced AIoT Smart Sleeping Pod — where engineering excellence meets biological intelligence.</span>
+    <span class="ar">أكثر سرير ذكي تقدماً في العالم — حيث تلتقي الهندسة المتميزة بالذكاء البيولوجي.</span>
+  </p>
+
+  <!-- BIG ISOMETRIC BED RENDER -->
+  <div class="bed-render-wrap reveal" style="margin:60px auto;max-width:900px;">
+    <svg viewBox="0 0 900 500" fill="none" style="width:100%;height:auto;">
+      <defs>
+        <linearGradient id="bTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1e3a45"/><stop offset="100%" stop-color="#0a1e25"/></linearGradient>
+        <linearGradient id="bSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0d2a35"/><stop offset="100%" stop-color="#061520"/></linearGradient>
+        <linearGradient id="bFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#102830"/><stop offset="100%" stop-color="#050e12"/></linearGradient>
+        <linearGradient id="scrG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00FFE5" stop-opacity="0.3"/><stop offset="100%" stop-color="#00FFE5" stop-opacity="0.05"/></linearGradient>
+        <radialGradient id="fGlow" cx="50%" cy="0%" r="60%"><stop offset="0%" stop-color="#00FFE5" stop-opacity="0.2"/><stop offset="100%" stop-color="#00FFE5" stop-opacity="0"/></radialGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <ellipse cx="450" cy="470" rx="310" ry="28" fill="url(#fGlow)"/>
+      <path d="M150 200 L750 200 L750 320 L150 320 Z" fill="url(#bTop)" stroke="#00FFE5" stroke-width="0.8" stroke-opacity="0.5"/>
+      <path d="M150 320 L750 320 L750 360 L150 360 Z" fill="url(#bFront)" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.3"/>
+      <line x1="150" y1="200" x2="150" y2="360" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.3"/>
+      <line x1="750" y1="200" x2="750" y2="360" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.3"/>
+      <!-- Headboard -->
+      <path d="M150 100 L280 100 L280 200 L150 200 Z" fill="url(#bSide)" stroke="#00FFE5" stroke-width="0.8" stroke-opacity="0.5"/>
+      <path d="M150 100 L280 100" stroke="#00FFE5" stroke-width="1.5" stroke-opacity="0.7" filter="url(#glow)"/>
+      <rect x="155" y="112" width="118" height="78" rx="6" fill="url(#scrG)" stroke="#00FFE5" stroke-width="0.8" stroke-opacity="0.6"/>
+      <text x="214" y="144" font-family="monospace" font-size="8" fill="#00FFE5" text-anchor="middle" opacity="0.9">AISLOS v2.0</text>
+      <text x="214" y="158" font-family="monospace" font-size="7" fill="#00FFE5" text-anchor="middle" opacity="0.6">SLEEP MODE ACTIVE</text>
+      <text x="214" y="172" font-family="monospace" font-size="7" fill="#00FFE5" text-anchor="middle" opacity="0.5">HR: 62bpm  SpO2: 98%</text>
+      <!-- Pillows -->
+      <path d="M180 185 Q220 175 280 182 L280 200 L150 200 L150 195 Q160 188 180 185 Z" fill="#1a3540" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.4"/>
+      <path d="M300 185 Q360 170 420 183 L420 200 L290 200 L285 196 Q295 188 300 185 Z" fill="#1a3540" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.4"/>
+      <!-- Quilting lines -->
+      <line x1="150" y1="240" x2="750" y2="240" stroke="#00FFE5" stroke-width="0.4" stroke-opacity="0.15" stroke-dasharray="4,8"/>
+      <line x1="150" y1="280" x2="750" y2="280" stroke="#00FFE5" stroke-width="0.4" stroke-opacity="0.15" stroke-dasharray="4,8"/>
+      <line x1="430" y1="200" x2="430" y2="320" stroke="#00FFE5" stroke-width="0.4" stroke-opacity="0.1" stroke-dasharray="4,8"/>
+      <!-- Sensor strip -->
+      <rect x="160" y="205" width="580" height="5" rx="2.5" fill="#00FFE5" fill-opacity="0.05" stroke="#00FFE5" stroke-width="0.4" stroke-opacity="0.3"/>
+      <!-- Legs -->
+      <path d="M180 360 L180 420 L208 420 L208 360 Z" fill="#061218" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.25"/>
+      <path d="M692 360 L692 420 L720 420 L720 360 Z" fill="#061218" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.25"/>
+      <!-- Ambient light strip -->
+      <line x1="185" y1="418" x2="715" y2="418" stroke="#00FFE5" stroke-width="2" stroke-opacity="0.6" filter="url(#glow)"/>
+      <line x1="185" y1="418" x2="715" y2="418" stroke="#00FFE5" stroke-width="8" stroke-opacity="0.08"/>
+      <!-- Sensor nodes -->
+      <circle cx="250" cy="255" r="4" fill="none" stroke="#00FFE5" stroke-width="0.8" stroke-opacity="0.5"/>
+      <circle cx="250" cy="255" r="1.5" fill="#00FFE5" opacity="0.7"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="2s" repeatCount="indefinite"/></circle>
+      <circle cx="650" cy="255" r="4" fill="none" stroke="#00FFE5" stroke-width="0.8" stroke-opacity="0.5"/>
+      <circle cx="650" cy="255" r="1.5" fill="#00FFE5" opacity="0.5"><animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.3s" repeatCount="indefinite"/></circle>
+      <circle cx="450" cy="310" r="4" fill="none" stroke="#00FFE5" stroke-width="0.8" stroke-opacity="0.5"/>
+      <circle cx="450" cy="310" r="1.5" fill="#00FFE5" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.7s" repeatCount="indefinite"/></circle>
+      <!-- Data lines -->
+      <line x1="250" y1="255" x2="214" y2="172" stroke="#00FFE5" stroke-width="0.4" stroke-opacity="0.2" stroke-dasharray="3,6"/>
+      <line x1="650" y1="255" x2="214" y2="172" stroke="#00FFE5" stroke-width="0.4" stroke-opacity="0.15" stroke-dasharray="3,6"/>
+      <!-- Labels -->
+      <text x="820" y="260" font-family="monospace" font-size="9" fill="#00FFE5" opacity="0.5">SENSORS</text>
+      <line x1="760" y1="255" x2="812" y2="255" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.35"/>
+      <text x="820" y="420" font-family="monospace" font-size="9" fill="#00FFE5" opacity="0.4">AMBIENT LIGHT</text>
+      <line x1="720" y1="418" x2="815" y2="418" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.3"/>
+      <text x="15" y="155" font-family="monospace" font-size="9" fill="#00FFE5" opacity="0.5">AISLOS DISPLAY</text>
+      <line x1="150" y1="152" x2="90" y2="152" stroke="#00FFE5" stroke-width="0.5" stroke-opacity="0.35"/>
+      <text x="450" y="492" font-family="monospace" font-size="10" fill="#00FFE5" opacity="0.2" text-anchor="middle" letter-spacing="5">WOODTECH-PRO NEBULA POD — CONCEPT RENDER</text>
+    </svg>
+  </div>
+
+  <!-- Features strip -->
+  <div class="wt-features">
+    <div class="wt-feat reveal"><div class="wt-feat-icon">💓</div><div class="wt-feat-title"><span class="en">Health Monitoring</span><span class="ar">المراقبة الصحية</span></div><p class="wt-feat-body"><span class="en">Continuous heart rate, SpO2, sleep stages, and HRV tracking all night.</span><span class="ar">مراقبة مستمرة لمعدل ضربات القلب وتشبع الأكسجين ومراحل النوم طوال الليل.</span></p></div>
+    <div class="wt-feat reveal"><div class="wt-feat-icon">🌡️</div><div class="wt-feat-title"><span class="en">Climate Control</span><span class="ar">التحكم المناخي</span></div><p class="wt-feat-body"><span class="en">AI-adaptive temperature, humidity, and air quality for optimal sleep.</span><span class="ar">تحكم ذكي تكيّفي في درجة الحرارة والرطوبة وجودة الهواء لنوم مثالي.</span></p></div>
+    <div class="wt-feat reveal"><div class="wt-feat-icon">🤖</div><div class="wt-feat-title"><span class="en">AISLOS Integration</span><span class="ar">تكامل AISLOS</span></div><p class="wt-feat-body"><span class="en">Powered by AISLOS — the smart OS that learns your patterns and automates your wellness.</span><span class="ar">مدعوم بـ AISLOS — نظام التشغيل الذكي الذي يتعلم أنماطك ويُؤتمت صحتك.</span></p></div>
+    <div class="wt-feat reveal"><div class="wt-feat-icon">📲</div><div class="wt-feat-title"><span class="en">Mobile App Control</span><span class="ar">التحكم عبر التطبيق</span></div><p class="wt-feat-body"><span class="en">Full control and analytics from your smartphone — wake reports, sleep scores, remote management.</span><span class="ar">تحكم كامل وتحليلات من هاتفك — تقارير الاستيقاظ، تقييم النوم، وإدارة عن بُعد.</span></p></div>
+  </div>
+</section>
+
+<!-- VIDEO SECTION -->
+<div class="video-section">
+  <div class="video-grid">
+    <div>
+      <div class="section-label reveal" style="color:#00FFE5"><span class="en">Smart Bed Technology</span><span class="ar">تقنية السرير الذكي</span></div>
+      <h3 class="section-title reveal" style="font-size:clamp(22px,3vw,38px)">
+        <span class="en">The Future of Sleep<br><span style="color:#00FFE5">Is Already Here</span></span>
+        <span class="ar">مستقبل النوم<br><span style="color:#00FFE5">بات حقيقة الآن</span></span>
+      </h3>
+      <p class="section-body reveal" style="margin-bottom:28px">
+        <span class="en">WOODTECH-PRO Nebula Pod integrates AIoT sensors, adaptive climate control, and the AISLOS platform into one seamless experience — a category the world has never seen before.</span>
+        <span class="ar">يدمج WOODTECH-PRO حساسات AIoT والتحكم المناخي التكيّفي ومنصة AISLOS في تجربة واحدة سلسة — فئة لم يشهدها العالم من قبل.</span>
+      </p>
+      <div class="spec-tabs reveal" id="specTabs">
+        <div class="spec-tab active" onclick="switchTab('health')"><span class="en">Health</span><span class="ar">صحة</span></div>
+        <div class="spec-tab" onclick="switchTab('comfort')"><span class="en">Comfort</span><span class="ar">راحة</span></div>
+        <div class="spec-tab" onclick="switchTab('tech')"><span class="en">Tech</span><span class="ar">تقنية</span></div>
+      </div>
+      <div class="spec-panels reveal" id="specPanels">
+        <div id="tab-health" class="active">
+          <div class="spec-item"><div class="spec-item-label"><span class="en">Heart Rate</span><span class="ar">معدل القلب</span></div><div class="spec-item-val"><span class="en">Continuous 24/7 ECG-grade</span><span class="ar">مراقبة مستمرة بمستوى ECG</span></div></div>
+          <div class="spec-item"><div class="spec-item-label"><span class="en">Blood Oxygen</span><span class="ar">أكسجين الدم</span></div><div class="spec-item-val"><span class="en">SpO2 real-time pulse oximetry</span><span class="ar">قياس تشبع الأكسجين الفوري</span></div></div>
+          <div class="spec-item"><div class="spec-item-label"><span class="en">Sleep Stages</span><span class="ar">مراحل النوم</span></div><div class="spec-item-val"><span class="en">REM / Deep / Light auto-detection</span><span class="ar">اكتشاف تلقائي REM / عميق / خفيف</span></div></div>
+          <div class="spec-item"><div class="spec-item-label"><span class="en">HRV Tracking</span><span class="ar">تتبع HRV</span></div><div class="spec-item-val"><span class="en">Recovery & stress analytics</span><span class="ar">تحليلات التعافي والإجهاد</span></div></div>
+        </div>
+        <div id="tab-comfort">
+          <div class="spec-item"><div class="spec-item-label"><span class="en">Temperature</span><span class="ar">درجة الحرارة</span></div><div class="spec-item-val"><span class="en">AI-adaptive dual-zone 16–32°C</span><span class="ar">منطقتان ذكيتان 16–32 درجة</span></div></div>
+          <div class="spec-item"><div class="spec-item-label"><span class="en">Air Quality</span><span class="ar">جودة الهواء</span></div><div class="spec-item-val"><span class="en">CO2, VOC, humidity + purifier</span><span class="ar">ثاني أكسيد الكربون والمركبات العضوية + مُنقّي</span></div></div>
+          <div class="spec-item"><div class="spec-item-label"><span class="en">Lighting</span><span class="ar">الإضاءة</span></div><div class="spec-item-val"><span class="en">Circadian rhythm adaptive ambiance</span><span class="ar">إضاءة تكيّفية مع الإيقاع اليومي</span></div></div>
+          <div class="spec-item"><div class="spec-item-label"><span class="en">Sound</span><span class="ar">الصوت</span></div><div class="spec-item-val"><span class="en">AI-generated sleep soundscapes</span><span class="ar">مشاهد صوتية للنوم تولّدها AI</span></div></div>
+        </div>
+        <div id="tab-tech">
+          <div class="spec-item"><div class="spec-item-label"><span class="en">Platform</span><span class="ar">المنصة</span></div><div class="spec-item-val"><span class="en">AISLOS v2.0 Smart OS</span><span class="ar">AISLOS v2.0 نظام تشغيل ذكي</span></div></div>
+          <div class="spec-item"><div class="spec-item-label"><span class="en">Connectivity</span><span class="ar">الاتصال</span></div><div class="spec-item-val"><span class="en">WiFi 6E · BT 5.3 · Zigbee</span><span class="ar">WiFi 6E · BT 5.3 · Zigbee</span></div></div>
+          <div class="spec-item"><div class="spec-item-label"><span class="en">AI Processor</span><span class="ar">معالج الذكاء</span></div><div class="spec-item-val"><span class="en">Edge AI — on-device inference</span><span class="ar">ذكاء اصطناعي طرفي محلي</span></div></div>
+          <div class="spec-item"><div class="spec-item-label"><span class="en">App</span><span class="ar">التطبيق</span></div><div class="spec-item-val"><span class="en">iOS & Android · Voice control</span><span class="ar">iOS و Android · تحكم صوتي</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="video-frame reveal">
+        <iframe src="https://www.youtube.com/embed/ukFHRjwKjkQ?rel=0&modestbranding=1&color=white" title="Smart Bed Technology" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="video-overlay"></div>
+        <div class="video-label">▶ <span class="en">SMART BED TECHNOLOGY</span><span class="ar">تقنية السرير الذكي</span></div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:10px;font-family:'Space Mono',monospace;letter-spacing:1px;"><span class="en">* WOODTECH-PRO is a proprietary concept by Jabr Technology. Prototype in development.</span><span class="ar" style="font-family:'Cairo',sans-serif;letter-spacing:0;font-size:12px">* WOODTECH-PRO مفهوم حصري لجبر تكنولوجي. النموذج الأولي قيد التطوير.</span></p>
+      <div class="video-frame reveal" style="margin-top:18px">
+        <iframe src="https://www.youtube.com/embed/BnxsMKRQIoA?rel=0&modestbranding=1&color=white" title="AIoT Smart Living" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="video-overlay"></div>
+        <div class="video-label">▶ <span class="en">AIoT SMART LIVING</span><span class="ar">المعيشة الذكية AIoT</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="glow-line"></div>
+
+<!-- ═══════════════════ FOUNDER ═══════════════════ -->
+<section id="founder" style="background:var(--deep)">
+  <div class="founder-layout">
+    <div class="founder-card reveal">
+      <div class="founder-avatar">MJ</div>
+      <div class="founder-name"><span class="en">Mohammed Aljabri</span><span class="ar">محمد الجبري</span></div>
+      <div class="founder-title"><span class="en">Founder & CEO · Jabr Technology</span><span class="ar">المؤسس والرئيس التنفيذي · جبر تكنولوجي</span></div>
+      <div class="founder-bio"><span class="en">Mechatronics Engineer and Technology Entrepreneur. Creator of AISLOS Smart Operating System. Architect of JUBARI INTERNATIONAL GROUP — a future global holding company spanning technology, AI, real estate, healthcare, and beyond.</span><span class="ar">مهندس ميكاترونيكس وريادي تقني. مبتكر نظام التشغيل الذكي AISLOS. مهندس مجموعة الجبري الدولية — شركة قابضة عالمية مستقبلية تمتد عبر التكنولوجيا والذكاء الاصطناعي والعقارات والرعاية الصحية وما هو أبعد من ذلك.</span></div>
+      <div class="founder-stats">
+        <div class="founder-stat"><div class="founder-stat-num">AISLOS</div><div class="founder-stat-label"><span class="en">Proprietary Platform</span><span class="ar">منصة حصرية</span></div></div>
+        <div class="founder-stat"><div class="founder-stat-num">2035</div><div class="founder-stat-label"><span class="en">Global Group Vision</span><span class="ar">رؤية المجموعة العالمية</span></div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="section-label"><span class="en">The Visionary</span><span class="ar">صاحب الرؤية</span></div>
+      <blockquote class="founder-quote">
+        <span class="en">Technology is a symphony that requires a precise conductor. We don't build products — we build the future.</span>
+        <span class="ar">التكنولوجيا سيمفونية تتطلب قائداً دقيقاً. نحن لا نبني منتجات — نحن نبني المستقبل.</span>
+      </blockquote>
+      <p class="section-body"><span class="en">Mohammed Aljabri founded JABR TECHNOLOGY with a singular conviction: that the gap between human intelligence and machine capability could be bridged through orchestrated engineering. His background in mechatronics, combined with a relentless vision for intelligent living systems, produced AISLOS — and will produce much more.</span><span class="ar">أسّس محمد الجبري جبر تكنولوجي بقناعة راسخة: أن الفجوة بين الذكاء البشري وقدرات الآلة يمكن سدّها من خلال الهندسة المُنسَّقة. خلفيته في الميكاترونيكس ورؤيته الثابتة لأنظمة المعيشة الذكية أنتجت AISLOS — وستنتج ما هو أكثر بكثير.</span></p>
+      <div style="margin-top:36px"><a href="#contact" class="btn-primary"><span class="en">Connect With Mohammed</span><span class="ar">تواصل مع محمد</span></a></div>
+    </div>
+  </div>
+</section>
+<div class="glow-line"></div>
+
+<!-- ═══════════════════ SOLUTIONS ═══════════════════ -->
+<section id="solutions" style="background:var(--black)">
+  <div class="section-label reveal"><span class="en">Market Reach</span><span class="ar">نطاق السوق</span></div>
+  <h2 class="section-title reveal"><span class="en">Industries We<br>Transform</span><span class="ar">القطاعات التي<br>نُحوّلها</span></h2>
+  <p class="section-body reveal"><span class="en">From luxury hospitality to healthcare infrastructure — AISLOS and JABR's intelligent ecosystems redefine every environment they enter.</span><span class="ar">من الضيافة الفاخرة إلى البنية التحتية للرعاية الصحية — تُعيد الأنظمة الذكية لجبر تكنولوجي تعريف كل بيئة تدخلها.</span></p>
+  <div class="industries-grid">
+    <div class="industry-item reveal"><div class="industry-icon">🏨</div><div class="industry-name"><span class="en">Hospitality & Hotels</span><span class="ar">الضيافة والفنادق</span></div><div class="industry-sub"><span class="en">Smart rooms, personalized AI experiences</span><span class="ar">غرف ذكية وتجارب مخصصة بالذكاء الاصطناعي</span></div></div>
+    <div class="industry-item reveal"><div class="industry-icon">🏠</div><div class="industry-name"><span class="en">Smart Homes</span><span class="ar">المنازل الذكية</span></div><div class="industry-sub"><span class="en">Complete residential AISLOS automation</span><span class="ar">أتمتة سكنية كاملة بنظام AISLOS</span></div></div>
+    <div class="industry-item reveal"><div class="industry-icon">🏥</div><div class="industry-name"><span class="en">Healthcare</span><span class="ar">الرعاية الصحية</span></div><div class="industry-sub"><span class="en">AI-assisted patient & facility monitoring</span><span class="ar">مراقبة المرضى والمرافق بمساعدة الذكاء الاصطناعي</span></div></div>
+    <div class="industry-item reveal"><div class="industry-icon">✈️</div><div class="industry-name"><span class="en">Airports & Transport</span><span class="ar">المطارات والنقل</span></div><div class="industry-sub"><span class="en">Intelligent infrastructure automation</span><span class="ar">أتمتة البنية التحتية الذكية</span></div></div>
+    <div class="industry-item reveal"><div class="industry-icon">🏢</div><div class="industry-name"><span class="en">Luxury Real Estate</span><span class="ar">العقارات الفاخرة</span></div><div class="industry-sub"><span class="en">Premium smart building integration</span><span class="ar">تكامل المباني الذكية المتميزة</span></div></div>
+    <div class="industry-item reveal"><div class="industry-icon">🏭</div><div class="industry-name"><span class="en">Enterprise & Industry</span><span class="ar">المؤسسات والصناعة</span></div><div class="industry-sub"><span class="en">Industrial IoT and process automation</span><span class="ar">إنترنت الأشياء الصناعي وأتمتة العمليات</span></div></div>
+    <div class="industry-item reveal"><div class="industry-icon">🏛️</div><div class="industry-name"><span class="en">Government</span><span class="ar">القطاع الحكومي</span></div><div class="industry-sub"><span class="en">Smart city infrastructure intelligence</span><span class="ar">ذكاء البنية التحتية للمدن الذكية</span></div></div>
+    <div class="industry-item reveal"><div class="industry-icon">🌐</div><div class="industry-name"><span class="en">Global Enterprises</span><span class="ar">الشركات العالمية</span></div><div class="industry-sub"><span class="en">Digital transformation & AI strategy</span><span class="ar">التحول الرقمي واستراتيجية الذكاء الاصطناعي</span></div></div>
+  </div>
+</section>
+<div class="glow-line"></div>
+
+<!-- ═══════════════════ INVESTORS ═══════════════════ -->
+<section id="investors" style="background:var(--deep)">
+  <div class="investor-layout">
+    <div>
+      <div class="section-label reveal"><span class="en">Investor Relations</span><span class="ar">علاقات المستثمرين</span></div>
+      <h2 class="inv-headline reveal"><span class="en">The Next <span>Billion-Dollar</span><br>Technology Platform</span><span class="ar">منصة التكنولوجيا <span>المليارية</span><br>القادمة</span></h2>
+      <p class="inv-body reveal"><span class="en">AISLOS is positioned to become the operating system layer for an entire generation of smart environments. We seek strategic investors who see AI, IoT, and intelligent living as the defining market of the next decade.</span><span class="ar">يتموضع AISLOS ليصبح طبقة نظام التشغيل لجيل كامل من البيئات الذكية. نبحث عن مستثمرين استراتيجيين يرون في الذكاء الاصطناعي وإنترنت الأشياء والمعيشة الذكية السوق المحدّد للعقد القادم.</span></p>
+      <a href="#" class="btn-primary reveal" style="display:inline-block"><span class="en">Download Pitch Deck</span><span class="ar">تحميل العرض التقديمي</span></a>
+      <div class="roadmap reveal" style="margin-top:60px">
+        <div class="section-label"><span class="en">Product Roadmap</span><span class="ar">خارطة طريق المنتج</span></div>
+        <div class="roadmap-line">
+          <div class="roadmap-point"><div class="roadmap-year">2024</div><ul class="roadmap-items"><li><span class="en">AISLOS v1 Launch</span><span class="ar">إطلاق AISLOS v1</span></li><li><span class="en">WOODTECH-PRO Prototype</span><span class="ar">نموذج WOODTECH-PRO</span></li></ul></div>
+          <div class="roadmap-point"><div class="roadmap-year">2025</div><ul class="roadmap-items"><li><span class="en">Seed Funding Round</span><span class="ar">جولة التمويل الأولي</span></li><li><span class="en">Hotel Pilot Programs</span><span class="ar">برامج تجريبية فندقية</span></li></ul></div>
+          <div class="roadmap-point"><div class="roadmap-year">2027</div><ul class="roadmap-items"><li><span class="en">Series A</span><span class="ar">جولة Series A</span></li><li><span class="en">Smart Building Suite</span><span class="ar">حزمة المباني الذكية</span></li></ul></div>
+          <div class="roadmap-point"><div class="roadmap-year">2030</div><ul class="roadmap-items"><li><span class="en">JUBARI GROUP Formation</span><span class="ar">تأسيس مجموعة الجبري</span></li><li><span class="en">Global Market Entry</span><span class="ar">دخول السوق العالمي</span></li></ul></div>
+          <div class="roadmap-point"><div class="roadmap-year">2035</div><ul class="roadmap-items"><li><span class="en">IPO Vision</span><span class="ar">الطرح العام الأولي</span></li><li><span class="en">100+ Markets</span><span class="ar">أكثر من 100 سوق</span></li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="inv-portal reveal">
+      <div class="inv-portal-title"><span class="en">Investor Portal</span><span class="ar">بوابة المستثمرين</span></div>
+      <div class="inv-items">
+        <div class="inv-item"><div class="inv-item-icon">📊</div><div><div class="inv-item-text"><span class="en">Executive Summary</span><span class="ar">الملخص التنفيذي</span></div><div class="inv-item-sub"><span class="en">Company overview & key metrics</span><span class="ar">نظرة عامة على الشركة والمقاييس الرئيسية</span></div></div><div class="inv-arrow">↓</div></div>
+        <div class="inv-item"><div class="inv-item-icon">🎯</div><div><div class="inv-item-text"><span class="en">Pitch Deck</span><span class="ar">العرض التقديمي</span></div><div class="inv-item-sub"><span class="en">Full investment presentation</span><span class="ar">العرض الاستثماري الكامل</span></div></div><div class="inv-arrow">↓</div></div>
+        <div class="inv-item"><div class="inv-item-icon">📈</div><div><div class="inv-item-text"><span class="en">Market Analysis</span><span class="ar">تحليل السوق</span></div><div class="inv-item-sub"><span class="en">TAM, SAM, SOM breakdown</span><span class="ar">تحليل TAM و SAM و SOM</span></div></div><div class="inv-arrow">↓</div></div>
+        <div class="inv-item"><div class="inv-item-icon">🏗️</div><div><div class="inv-item-text"><span class="en">Product Roadmap</span><span class="ar">خارطة المنتج</span></div><div class="inv-item-sub"><span class="en">2024 → 2035 technology vision</span><span class="ar">رؤية التكنولوجيا 2024 ← 2035</span></div></div><div class="inv-arrow">↓</div></div>
+        <div class="inv-item"><div class="inv-item-icon">✉️</div><div><div class="inv-item-text"><span class="en">Contact IR Team</span><span class="ar">التواصل مع فريق علاقات المستثمرين</span></div><div class="inv-item-sub"><span class="en">Direct investor relations access</span><span class="ar">وصول مباشر لعلاقات المستثمرين</span></div></div><div class="inv-arrow">→</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="glow-line"></div>
+
+<!-- ═══════════════════ CONTACT ═══════════════════ -->
+<section id="contact" style="background:var(--black)">
+  <div style="text-align:center;max-width:620px;margin:0 auto">
+    <div class="section-label reveal" style="justify-content:center"><span class="en">Connect</span><span class="ar">تواصل معنا</span></div>
+    <h2 class="section-title reveal" style="text-align:center"><span class="en">Ready to Build<br>the Future Together?</span><span class="ar">مستعد لبناء<br>المستقبل معاً؟</span></h2>
+    <p class="section-body reveal" style="margin:0 auto 44px;text-align:center"><span class="en">Whether you're an investor, partner, client, or visionary — JABR TECHNOLOGY wants to hear from you.</span><span class="ar">سواء كنت مستثمراً أو شريكاً أو عميلاً أو صاحب رؤية — جبر تكنولوجي تريد الاستماع إليك.</span></p>
+    <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px;text-align:left">
+      <input type="text" placeholder="Full Name / الاسم الكامل" style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.15);color:var(--text);padding:15px 18px;font-family:'Syne',sans-serif;font-size:14px;width:100%;outline:none;">
+      <input type="email" placeholder="Email / البريد الإلكتروني" style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.15);color:var(--text);padding:15px 18px;font-family:'Syne',sans-serif;font-size:14px;width:100%;outline:none;">
+      <select style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.15);color:var(--muted);padding:15px 18px;font-family:'Syne',sans-serif;font-size:14px;width:100%;outline:none;grid-column:1/-1;cursor:none;">
+        <option>Investor Inquiry / استفسار استثماري</option>
+        <option>Partnership / شراكة</option>
+        <option>Business Proposal / مقترح تجاري</option>
+        <option>General Inquiry / استفسار عام</option>
+      </select>
+      <textarea placeholder="Message / الرسالة..." rows="4" style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.15);color:var(--text);padding:15px 18px;font-family:'Syne',sans-serif;font-size:14px;width:100%;outline:none;resize:none;grid-column:1/-1;"></textarea>
+    </div>
+    <button class="btn-primary reveal" style="cursor:none;border:none;font-size:13px"><span class="en">Send Message →</span><span class="ar">إرسال الرسالة ←</span></button>
+    <div style="margin-top:44px;display:flex;gap:28px;justify-content:center;flex-wrap:wrap" class="reveal">
+      <a href="#" style="color:var(--muted);font-size:13px;text-decoration:none;font-family:'Space Mono',monospace;letter-spacing:1px;transition:color 0.3s">LinkedIn</a>
+      <a href="#" style="color:var(--muted);font-size:13px;text-decoration:none;font-family:'Space Mono',monospace;letter-spacing:1px;transition:color 0.3s">Twitter / X</a>
+      <a href="mailto:info@jabrtech.com" style="color:var(--electric);font-size:13px;text-decoration:none;font-family:'Space Mono',monospace;letter-spacing:1px">info@jabrtech.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo-wrap">
+        <svg width="30" height="30" viewBox="0 0 42 42" fill="none">
+          <polygon points="21,2 38,11.5 38,30.5 21,40 4,30.5 4,11.5" stroke="#00D4FF" stroke-width="1.2" fill="rgba(0,212,255,0.05)"/>
+          <path d="M26 12 L26 26 Q26 30 21 30 Q16 30 16 26 L16 24" stroke="#00D4FF" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <line x1="22" y1="12" x2="30" y2="12" stroke="#00D4FF" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="21" cy="21" r="2" fill="#00D4FF" opacity="0.8"/>
+        </svg>
+        <span class="footer-logo-text">JABRTECH</span>
+      </div>
+      <p class="footer-tagline"><span class="en">Engineering Intelligence Into Everyday Life. Building the intelligent infrastructure of tomorrow.</span><span class="ar">نهندس الذكاء في حياتك اليومية. نبني البنية التحتية الذكية لغد أفضل.</span></p>
+      <div class="social-links">
+        <a href="#" class="social-link">in</a>
+        <a href="#" class="social-link">𝕏</a>
+        <a href="#" class="social-link">▶</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title"><span class="en">Company</span><span class="ar">الشركة</span></div>
+      <ul class="footer-links">
+        <li><a href="#"><span class="en">About Jabr</span><span class="ar">عن جبر</span></a></li>
+        <li><a href="#"><span class="en">The Founder</span><span class="ar">المؤسس</span></a></li>
+        <li><a href="#"><span class="en">Orchestra Philosophy</span><span class="ar">فلسفة الأوركسترا</span></a></li>
+        <li><a href="#"><span class="en">Careers</span><span class="ar">الوظائف</span></a></li>
+        <li><a href="#"><span class="en">News & Media</span><span class="ar">الأخبار والإعلام</span></a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title"><span class="en">Technology</span><span class="ar">التكنولوجيا</span></div>
+      <ul class="footer-links">
+        <li><a href="#">AISLOS Platform</a></li>
+        <li><a href="#">WOODTECH-PRO</a></li>
+        <li><a href="#"><span class="en">IoT Solutions</span><span class="ar">حلول IoT</span></a></li>
+        <li><a href="#"><span class="en">Embedded Systems</span><span class="ar">الأنظمة المدمجة</span></a></li>
+        <li><a href="#"><span class="en">Consulting</span><span class="ar">الاستشارات</span></a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title"><span class="en">Investors</span><span class="ar">المستثمرون</span></div>
+      <ul class="footer-links">
+        <li><a href="#"><span class="en">Investor Portal</span><span class="ar">بوابة المستثمرين</span></a></li>
+        <li><a href="#"><span class="en">Pitch Deck</span><span class="ar">العرض التقديمي</span></a></li>
+        <li><a href="#"><span class="en">Market Analysis</span><span class="ar">تحليل السوق</span></a></li>
+        <li><a href="#"><span class="en">Roadmap 2035</span><span class="ar">خارطة الطريق 2035</span></a></li>
+        <li><a href="#"><span class="en">IR Contact</span><span class="ar">التواصل مع IR</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy"><span class="en">© 2025 JABR TECHNOLOGY — www.jabrtech.com</span><span class="ar">© 2025 جبر تكنولوجي — www.jabrtech.com</span></span>
+    <span class="footer-tech">AISLOS · WOODTECH-PRO · JUBARI GROUP</span>
+  </div>
+</footer>
+
+<script>
+// ── LANGUAGE TOGGLE ──
+function toggleLang() {
+  const html = document.getElementById('html-root');
+  const isAr = html.lang === 'ar';
+  html.lang = isAr ? 'en' : 'ar';
+  html.dir = isAr ? 'ltr' : 'rtl';
+  // Update page title
+  document.title = isAr
+    ? 'JABR TECHNOLOGY — Engineering Intelligence Into Everyday Life'
+    : 'جبر تكنولوجي — نهندس الذكاء في حياتك اليومية';
+}
+
+// ── CUSTOM CURSOR ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+  ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
+});
+
+// ── NAVBAR SCROLL ──
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// ── PARTICLES ──
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+resize(); window.addEventListener('resize', resize);
+class Particle {
+  constructor() { this.reset(); }
+  reset() { this.x=Math.random()*W; this.y=Math.random()*H; this.vx=(Math.random()-0.5)*0.4; this.vy=(Math.random()-0.5)*0.4; this.size=Math.random()*1.5+0.5; this.opacity=Math.random()*0.5+0.1; this.life=0; this.maxLife=Math.random()*300+200; }
+  update() { this.x+=this.vx; this.y+=this.vy; this.life++; if(this.life>this.maxLife)this.reset(); if(this.x<0||this.x>W)this.vx*=-1; if(this.y<0||this.y>H)this.vy*=-1; }
+  draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fillStyle=`rgba(0,212,255,${this.opacity})`; ctx.fill(); }
+}
+for(let i=0;i<120;i++) particles.push(new Particle());
+function drawConnections() {
+  for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++){
+    const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, d=Math.sqrt(dx*dx+dy*dy);
+    if(d<100){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(0,212,255,${0.08*(1-d/100)})`;ctx.lineWidth=0.5;ctx.stroke();}
+  }
+}
+function animate() { ctx.clearRect(0,0,W,H); particles.forEach(p=>{p.update();p.draw();}); drawConnections(); requestAnimationFrame(animate); }
+animate();
+
+// ── SCROLL REVEAL ──
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+// ── SPEC TABS ──
+function switchTab(id) {
+  document.querySelectorAll('.spec-tab').forEach((t,i) => t.classList.toggle('active', ['health','comfort','tech'][i]===id));
+  document.querySelectorAll('.spec-panels > div').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+}
+</script>
+</body>
+</html>
